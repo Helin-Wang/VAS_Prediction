@@ -1,4 +1,4 @@
-from models.train import adaboost
+from models.train import adaboost, ann, decision_tree, knn, logistic_regression, rf, svm, xgb
 from utils.eval import eval_model
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -22,9 +22,42 @@ y = df[target_column]
 y = y.apply(lambda x: 0 if x <= 3 else 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-best_model = adaboost(X_train, y_train)
 
-y_pred = best_model.predict(X_test)
-y_pred_prob = best_model.predict_proba(X_test)[:, 1]  
+model_dict = {
+    'adaboost': adaboost,
+    'ann': ann,
+    'decision_tree': decision_tree,
+    'knn': knn,
+    'logistic_regression': logistic_regression,
+    'random_forest': rf,
+    'svm': svm, 
+    'xgboost': xgb
+}
+acc_list = []
+f1_list = []
+precision_list = []
+recall_list = []
+auc_list = []
+model_names = []
+for model_name, model in model_dict.items():
+    best_model = model(X_train, y_train)
+    y_pred = best_model.predict(X_test)
+    y_pred_prob = best_model.predict_proba(X_test)[:, 1]  
 
-eval_model(y_test, y_pred, y_pred_prob)
+    accuracy, f1, precision, recall, auc = eval_model(y_test, y_pred, y_pred_prob)
+    model_names.append(model_name)
+    acc_list.append(accuracy)
+    f1_list.append(f1)
+    precision_list.append(precision)
+    recall_list.append(recall)
+    auc_list.append(auc)
+    
+result_df = pd.DataFrame({
+    'Model': model_names,
+    'Accuracy': acc_list,
+    'F1 Score': f1_list,
+    'Precision': precision_list,
+    'Recall': recall_list,
+    'AUC': auc_list
+})
+result_df.to_csv("results.csv", index=False)
