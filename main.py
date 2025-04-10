@@ -2,6 +2,7 @@ from models.train import adaboost, ann, decision_tree, knn, logistic_regression,
 from utils.eval import eval_model
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import joblib
 
 file_path = "example_dataset.xlsx"  # 替换为实际的文件路径
 df = pd.read_excel(file_path)
@@ -43,6 +44,8 @@ for model_name, model in model_dict.items():
     best_model = model(X_train, y_train)
     y_pred = best_model.predict(X_test)
     y_pred_prob = best_model.predict_proba(X_test)[:, 1]  
+    joblib.dump(best_model, f'outputs/{model_name}.pkl')
+
 
     accuracy, f1, precision, recall, auc = eval_model(y_test, y_pred, y_pred_prob)
     model_names.append(model_name)
@@ -60,4 +63,4 @@ result_df = pd.DataFrame({
     'Recall': recall_list,
     'AUC': auc_list
 })
-result_df.to_csv("results.csv", index=False)
+result_df.to_csv("outputs/results.csv", index=False)

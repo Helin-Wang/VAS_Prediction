@@ -1,0 +1,2 @@
+Model,Accuracy,F1 Score,Precision,Recall,AUC
+adaboost,1.0,1.0,1.0,1.0,1.0
