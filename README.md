@@ -2,7 +2,7 @@
 
 ## 🔍 Purpose
 
-This code is designed for predicting the treatment outcome of KOA (Knee Osteoarthritis). It showcases the full process from data preprocessing, model training, to result generation.
+This code is designed for predicting the treatment outcome of KOA (Knee Osteoarthritis).
 
 ## 💻 Environment
 
@@ -23,8 +23,7 @@ pip install -r requirements.txt
 - Trained model files are also saved in the outputs directory.
 
 ## 🚨 Notes
-- Due to privacy constraints, real clinical data is not included in this repository.
-- Please contact the authors to request access to the actual dataset if needed.
+- The real clinical data used in this study is not publicly available due to restrictions related to patient privacy, ethical considerations, and institutional regulations.
 
 ## 🧪 Running the Code
 - To execute the full pipeline:
